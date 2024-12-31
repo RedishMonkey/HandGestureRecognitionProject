@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button onclick="useFetch()">sent post</button>
+    <img src="http://localhost:3000/get-image" alt="no image found YOUUUUU">
+    <script>
+      const url = `http://localhost:3000/send-image`
+      const data = {
+        imageData:"heyy dawggg"
+      }
+
+      async function useFetch() {
+        await fetch(url, {
+          method: "POST", // HTTP method
+          headers: {
+            "Content-Type": "application/json", // Inform the server we're sending JSON
+          },
+          body: JSON.stringify(data), // Convert JavaScript object to JSON string
+        }).then(res => console.log(res));
+
+        console.log('sent')
+      }
+    </script>
+  </body>
+</html>
