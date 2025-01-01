@@ -1,13 +1,21 @@
 from fastapi import FastAPI, Path, Query, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional, Dict
 from pydantic import BaseModel
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Adjust this to specify allowed origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 class Image(BaseModel):
-    imageName: str
     imageId: int
-    data: int = None
+    data: int
 
 
 @app.get("/")
@@ -26,3 +34,11 @@ def put_image(image_type: str, image: Image):
         "image_id": image.imageId,
         "data": image.data
     }
+
+@app.post("/send-image")
+def sendImage(body:Image):
+    if body.imageId == 1:
+        return {"isImageOk": True}
+    
+    return {"isImageOk": False}
+    

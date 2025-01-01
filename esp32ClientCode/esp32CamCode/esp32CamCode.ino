@@ -38,6 +38,4 @@ void loop() {
     Serial.print(timePassed);
     Serial.print('\n');
   }
-  
-
 }
