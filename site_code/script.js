@@ -18,3 +18,4 @@ function ShowBackground()
         pageContent.style.display = "block"
     }
 }
+
