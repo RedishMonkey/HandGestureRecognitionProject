@@ -1,3 +1,98 @@
 .settingsBtn{
     border-radius: 100%;
 }
+
+nav div a,nav div button, nav div div ul li a, nav div button span
+{
+    color: #ffffff !important;
+}
+
+nav div button span{
+    filter: brightness(1000000)
+}
+
+li.noBullet{
+    list-style-type: none;
+}
+
+.customCard{
+    overflow: hidden;
+    transition-duration: 1s;
+    transition: 1000px 50ms linear;
+}
+
+.customCard:hover{
+    transform: scale(1.1);
+}
+
+.customBodyStyle{
+    background-image: url(images/backgroundImage.jpg);
+    min-height: 100vh;
+    background-size: cover;
+}
+
+#contentDiv{
+    display: block;
+}
+
+.connectImage{
+    padding: 2vh;
+}
+
+.pcImage{
+    border-style: solid;
+    border-radius: 1.5vh;
+    border-color: #000000;
+    border-width: 0.5vh;
+    display:inline;
+    padding: 0.5vh;
+}
+.dotLeft{
+    background-color: #000;
+    width: 1vh;
+    height: 1vh;
+    border-radius: 0.5vh;
+    border-style: solid;
+    margin-left: 3vh;
+    margin-right: 3vh;
+    padding: 0px;
+    display: inline-block;
+}
+
+.dot{
+    background-color: #000;
+    width: 1vh;
+    height: 1vh;
+    border-radius: 0.5vh;
+    border-style: solid;
+    padding: 0px;
+    display: inline-block;
+}
+
+.dotLeft{
+    margin-left: 1vh;
+    margin-right: 2vh;
+}
+
+.dotMiddle{
+    margin-left: 2vh;
+    margin-right: 2vh;
+}
+.dotRight{
+    margin-left: 2vh;
+    margin-right: 1vh;
+}
+
+.robotImage{
+    
+    width: 1%;
+    height: 1vh;
+    border-radius: 1vh;
+    border-style: solid;
+    border-color: #4F738E;
+    padding: 1vh;
+    display: inline-block;
+}
+
+
+

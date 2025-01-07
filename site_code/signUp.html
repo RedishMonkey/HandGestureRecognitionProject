@@ -11,13 +11,13 @@
     <link rel="stylesheet" href="style.css">
     
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+<body class="customBodyStyle">
+    <nav class="navbar navbar-expand-lg bg-primary navbrTxt">
         <div class="container-fluid">
             <a class="navbar-brand">hand control</a>
-            
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLinks">
-                <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon" ></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarLinks">
@@ -25,40 +25,106 @@
                     <li class="nav-item">
                         <a class="nav-link active"  href="index.html">home page</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link active"  href="settingsPage.html">settings</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                     <a class="nav-link active"  href="signIn.html">sign in</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active"  href="signUp.html">sign up</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link active"  href="connectToRobot.html">connect</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active"  href="seeAllRobots.html">robots</a>
+                    </li> -->
+                    <li class="nav-item">
+                        <button class="nav-link active" id="showBgBtn"  onclick="ShowBackground()" >show background</button>
+                    </li>
                 </ul>
-          </div>
+            </div>
         </div>
     </nav>
     
-    <div class="container-lg bg-dark-subtle rounded-5 w-50 px-5 py-3 mt-5 text-center">
+    <div class="container-lg bg-white rounded-5 w-50 px-5 py-3 mt-5 text-center"  id="contentDiv">
         <div class="h4 text-center">
-            sign in
+            sign up
         </div>
         <div class="container-lg">
             <div class="row mb-3">
-                <text class="col-lg-6">username:</text> <input class="col-lg-6 border-0 rounded-5 bg-body-secondary" type="text" placeholder="write your username here">
+                <text class="col-lg-6">username:</text> <input id="username" class="col-lg-6 border-0 rounded-5 bg-body-secondary" type="text" placeholder="write your username here">
             </div>
             <div class="row mb-3">
-                <text class="col-lg-6">password:</text> <input class="col-lg-6 border-0 rounded-5 bg-body-secondary" type="text" placeholder="write your password here">
+                <text class="col-lg-6">email:</text> <input id="email" class="col-lg-6 border-0 rounded-5 bg-body-secondary" type="text" placeholder="write your username here">
+            </div>
+            <div class="row mb-3">
+                <text class="col-lg-6">password:</text> <input id="password" class="col-lg-6 border-0 rounded-5 bg-body-secondary" type="text" placeholder="write your password here">
             </div>
         </div>
-        <button class="btn btn btn-outline-dark">sign up</button>
+        <button id="submitBtn" class="btn btn btn-outline-dark">sign up</button>
     </div>
     
     </div>
     
+
+
+    <script type="module">
+        const firebaseConfig = {
+            apiKey: "AIzaSyCvWFB27eewjZtKwlEk4F0qvMm6nn2uoGY",
+            authDomain: "hand-recognition-a7ca9.firebaseapp.com",
+            databaseURL: "https://hand-recognition-a7ca9-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "hand-recognition-a7ca9",
+            storageBucket: "hand-recognition-a7ca9.firebasestorage.app",
+            messagingSenderId: "864510647675",
+            appId: "1:864510647675:web:60cd762ff6ecafd10631de"
+        };
+        import {initializeApp} from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js"
+        import {getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js"
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        
+        document.getElementById("submitBtn").addEventListener("click",async () => {
+            console.log("dsjf")
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const username = document.getElementById("username").value;
+            console.log("email: ", email);
+            console.log("passwod: ", password);
+            console.log("username: ", username);
+
+            const auth = getAuth();
+            
+            // createUserWithEmailAndPassword(auth, email, password).then((userCred) => {
+            //     console.log(userCred)
+            // }).catch((error)=> {
+            //     console.log(error)
+            // })
+            try{
+                const userCred = await createUserWithEmailAndPassword(auth, email, password)
+                const user = userCred.user
+                const uid = user.uid
+
+                const database = getDatabase();
+                const userRef = ref(database, `users/${uid}`);
+                const worked = await set(userRef, {email , password, username})
+                console.log(worked)
+                window.location.href = "seeLive.html";
+
+            }
+            catch(error){
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorMessage);
+            }
+        })
+
+
+      </script>
     <script src="script.js"></script>
 </body>
 </html>
