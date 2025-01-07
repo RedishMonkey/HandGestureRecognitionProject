@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <a href="signup.html">sign up</a>
+    <div>
+      email: <input type="text" id="usernameTxt" /><br />
+      password: <input type="text" id="emailTxt" />
+    </div>
+    <button onclick="">sign up</button>
+
+    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-auth-compat.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyCvWFB27eewjZtKwlEk4F0qvMm6nn2uoGY",
+        authDomain: "hand-recognition-a7ca9.firebaseapp.com",
+        projectId: "hand-recognition-a7ca9",
+        storageBucket: "hand-recognition-a7ca9.firebasestorage.app",
+        messagingSenderId: "864510647675",
+        appId: "1:864510647675:web:60cd762ff6ecafd10631de",
+      };
+      app = async () =>{
+        appInside = await firebase.initializeApp(firebaseConfig)
+
+        firebase
+        .auth()
+        .createUserWithEmailAndPassword("filler@gmail.com", "hello1111111111")
+        .then((userCredential) => {
+          // Signed in
+          var user = userCredential.user;
+        })
+        .catch((error) => {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          console.log(errorMessage)
+          // ..
+        });
+        console.log(appInside)
+      } 
+      app()
+      
+
+      //createUser();
+      console.log();
+    </script>
+  </body>
+</html>

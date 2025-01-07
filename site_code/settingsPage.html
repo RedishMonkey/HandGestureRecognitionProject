@@ -11,47 +11,57 @@
     <link rel="stylesheet" href="style.css">
     
 </head>
-<body class>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+<body class="customBodyStyle">
+    <nav class="navbar navbar-expand-lg bg-primary navbrTxt">
         <div class="container-fluid">
             <a class="navbar-brand">hand control</a>
-            
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLinks">
-                <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon" ></span>
             </button>
-            
+
             <div class="collapse navbar-collapse" id="navbarLinks">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active"  href="index.html">home page</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link active"  href="settingsPage.html">settings</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                     <a class="nav-link active"  href="signIn.html">sign in</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active"  href="signUp.html">sign up</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link active"  href="connectToRobot.html">connect</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active"  href="seeAllRobots.html">robots</a>
+                    </li> -->
+                    <li class="nav-item">
+                        <button class="nav-link active" id="showBgBtn"  onclick="ShowBackground()" >show background</button>
+                    </li>
                 </ul>
-          </div>
+            </div>
         </div>
     </nav>
-    <div class="container-lg h4 mt-5 mb-3 text-center">
-        here are the settings you can toggle for your robots
-    </div>
 
-    <div class="container-lg">
-        <div class="col-12 text-center mb-1 mb-lg-3"><button class="btn btn-outline-success settingsBtn btn-lg" onclick="ToggleButton('NoMoveBtn')" id="NoMoveBtn">stationary</button></div>
-        <div class="col-12 text-center mb-1 mb-lg-3"><button class="btn btn-outline-success settingsBtn btn-lg" onclick="ToggleButton('customGestures')" id="customGestures">use custom getures</button></div>
-        <div class="col-12 text-center mb-1 mb-lg-3"><button class="btn btn-outline-success settingsBtn btn-lg" onclick="ToggleButton('useLeftHand')" id="useLeftHand">use left hand</button></div>
-        <div class="col-12 text-center mb-1 mb-lg-3"><button class="btn btn-outline-success settingsBtn btn-lg" onclick="ToggleButton('useRightHand')" id="useRightHand">use right hand</button></div>
-        <div class="col-12 text-center mb-1 mb-lg-3"><button class="btn btn-outline-success settingsBtn btn-lg" onclick="ToggleButton('gestureCreation')" id="gestureCreation">allow gesture creation</button></div>
+    <div class="container-lg rounded-5 bg-white p-2 mt-4" id="contentDiv">
+        <div class="text-center">
+            <h4 class="h4 ">here are the settings you can toggle for your robots</h4>
+            
+    
+        
+            <div class="col-12 text-center mb-1 mb-lg-3"><button class="btn btn-outline-success settingsBtn btn-lg" onclick="ToggleButton('NoMoveBtn')" id="NoMoveBtn">stationary</button></div>
+            <div class="col-12 text-center mb-1 mb-lg-3"><button class="btn btn-outline-success settingsBtn btn-lg" onclick="ToggleButton('customGestures')" id="customGestures">use custom getures</button></div>
+            <div class="col-12 text-center mb-1 mb-lg-3"><button class="btn btn-outline-success settingsBtn btn-lg" onclick="ToggleButton('useLeftHand')" id="useLeftHand">use left hand</button></div>
+            <div class="col-12 text-center mb-1 mb-lg-3"><button class="btn btn-outline-success settingsBtn btn-lg" onclick="ToggleButton('useRightHand')" id="useRightHand">use right hand</button></div>
+            <div class="col-12 text-center mb-1 mb-lg-3"><button class="btn btn-outline-success settingsBtn btn-lg" onclick="ToggleButton('gestureCreation')" id="gestureCreation">allow gesture creation</button></div>
+        </div>
     </div>
+    
 
 
 
