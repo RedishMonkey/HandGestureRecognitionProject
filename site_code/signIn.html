@@ -38,21 +38,21 @@
             <li class="nav-item">
               <a class="nav-link active" href="index.html">home page</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link active" href="settingsPage.html">settings</a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <a class="nav-link active" href="signIn.html">sign in</a>
             </li>
             <li class="nav-item">
               <a class="nav-link active" href="signUp.html">sign up</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link active" href="connectToRobot.html">connect</a>
             </li>
             <li class="nav-item">
               <a class="nav-link active" href="seeAllRobots.html">robots</a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <button
                 class="nav-link active"
@@ -73,8 +73,9 @@
       <div class="h4 text-center">sign in</div>
       <div class="container-lg">
         <div class="row mb-3">
-          <text class="col-lg-6">username:</text>
+          <text class="col-lg-6">email:</text>
           <input
+            id="email"
             class="col-lg-6 border-0 rounded-5 bg-body-secondary"
             type="text"
             placeholder="write your username here"
@@ -83,18 +84,17 @@
         <div class="row mb-3">
           <text class="col-lg-6">password:</text>
           <input
+            id="password"
             class="col-lg-6 border-0 rounded-5 bg-body-secondary"
             type="text"
             placeholder="write your password here"
           />
         </div>
       </div>
-      <button class="btn btn btn-outline-dark">sign in</button>
+      <button id="signInBtn" class="btn btn btn-outline-dark">sign in</button>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-auth-compat.js"></script>
-    <script>
+    <script type="module">
       const firebaseConfig = {
         apiKey: "AIzaSyCvWFB27eewjZtKwlEk4F0qvMm6nn2uoGY",
         authDomain: "hand-recognition-a7ca9.firebaseapp.com",
@@ -103,9 +103,33 @@
         messagingSenderId: "864510647675",
         appId: "1:864510647675:web:60cd762ff6ecafd10631de",
       };
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js"
+      import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js"
 
+      
       // Initialize Firebase
-      const app = firebase.initializeApp(firebaseConfig);
+      const app = initializeApp(firebaseConfig);
+
+
+
+      document.getElementById("signInBtn").addEventListener("click", async () => {
+
+        const auth = getAuth();
+
+        const email = document.getElementById("email").value
+        const password = document.getElementById("password").value
+
+        const userCred = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCred.user;
+        console.log(userCred);
+        console.log(user);
+        window.location.href = "seeLive.html";
+
+
+
+      })
+
+
       console.log(app)
     </script>
     <script src="script.js"></script>

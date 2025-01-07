@@ -26,23 +26,29 @@
                     <li class="nav-item">
                         <a class="nav-link active"  href="index.html">home page</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link active"  href="settingsPage.html">settings</a>
-                    </li>
-                    <li class="nav-item">
+                    </li> -->
+                    <li id="signIn" class="nav-item">
                     <a class="nav-link active"  href="signIn.html">sign in</a>
                     </li>
-                    <li class="nav-item">
+                    <li id="signUp" class="nav-item">
                         <a class="nav-link active"  href="signUp.html">sign up</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link active"  href="connectToRobot.html">connect</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active"  href="seeAllRobots.html">robots</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <button class="nav-link active" id="showBgBtn"  onclick="ShowBackground()" >show background</button>
+                    </li>
+                    <li id="liveBtn" class="nav-item">
+                        <a class="nav-link active"  href="seeLive.html">see live</a>
+                    </li>
+                    <li class="nav-item">
+                        <button id="logoutBtn" class="nav-link active">logout</a>
                     </li>
                 </ul>
           </div>
@@ -96,7 +102,48 @@
     </div>
 
 
+    <script type="module">
+        const firebaseConfig = {
+            apiKey: "AIzaSyCvWFB27eewjZtKwlEk4F0qvMm6nn2uoGY",
+            authDomain: "hand-recognition-a7ca9.firebaseapp.com",
+            databaseURL: "https://hand-recognition-a7ca9-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "hand-recognition-a7ca9",
+            storageBucket: "hand-recognition-a7ca9.firebasestorage.app",
+            messagingSenderId: "864510647675",
+            appId: "1:864510647675:web:60cd762ff6ecafd10631de"
+        };
+        import {initializeApp} from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js"
+        import {getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js"
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
 
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        
+        const auth = getAuth()
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById("signIn").style.display="none"
+                document.getElementById("signUp").style.display="none"
+                document.getElementById("logoutBtn").style.display="list-item"
+                document.getElementById("liveBtn").style.display="list-item"
+                // Redirect to a user-specific page if necessary
+                // window.location.href = "dashboard.html"; // Example
+            } else {
+                document.getElementById("signIn").style.display="list-item";
+                document.getElementById("signUp").style.display="list-item";
+                document.getElementById("logoutBtn").style.display="none";
+                document.getElementById("liveBtn").style.display="none";
+                // Optionally redirect to login page if needed
+            }
+        });
+
+
+        document.getElementById("logoutBtn").addEventListener("click",async ()=>{
+        await auth.signOut();
+      })
+      </script>
     <script src="script.js"></script>
 </body>
 </html>
