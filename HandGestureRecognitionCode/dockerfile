@@ -1,0 +1,14 @@
+FROM python:3.9.20-bullseye
+
+RUN apt-get update && apt-get install -y libgl1-mesa-glx
+
+WORKDIR /
+
+COPY . .
+
+
+RUN pip install numpy
+RUN pip install mediapipe
+RUN pip install opencv-python
+
+CMD ["python","handRecByMe.py"]
