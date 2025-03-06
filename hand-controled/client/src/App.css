@@ -1,0 +1,118 @@
+/* Reset styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-image: url(./assets/backgroundImages/backgroundImage.jpg);
+  min-height: 100vh;
+  background-size: cover;
+}
+
+
+/* Container styles */
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 767px) {
+  .container {
+    width: 100%; /* Applies to screen widths between 576px and 767px */
+  }
+}
+
+
+@media (min-width: 768px) and (max-width: 991) {
+  .container {
+    width: 510px; /* Applies to screen widths between 576px and 767px */
+  }
+}
+
+
+@media (min-width: 992) and (max-width: 1199) {
+  .container {
+    width: 800px; /* Applies to screen widths between 576px and 767px */
+  }
+}
+
+
+@media (min-width: 1200) {
+  .container {
+    width: 1000px;  /* Applies to screen widths between 576px and 767px */
+  }
+}
+
+/* Card styles */
+.card {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  width: 18rem;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Utility classes */
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.noBullet {
+  list-style: none;
+}
+
+/* Button styles */
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Flex utilities */
+.row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.col-4 {
+  flex: 0 0 calc(33.333% - 20px);
+  margin: 10px;
+}
+
+@media (max-width: 768px) {
+  .col-4 {
+    flex: 0 0 calc(100% - 20px);
+  }
+}
