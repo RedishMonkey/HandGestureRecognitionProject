@@ -99,11 +99,7 @@
 
             const auth = getAuth();
             
-            // createUserWithEmailAndPassword(auth, email, password).then((userCred) => {
-            //     console.log(userCred)
-            // }).catch((error)=> {
-            //     console.log(error)
-            // })
+            
             try{
                 const userCred = await createUserWithEmailAndPassword(auth, email, password)
                 const user = userCred.user
