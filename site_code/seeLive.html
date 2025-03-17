@@ -38,15 +38,6 @@
             <li class="nav-item">
               <a class="nav-link active" href="index.html">home page</a>
             </li>
-            <!-- <li class="nav-item">
-                        <a class="nav-link active"  href="settingsPage.html">settings</a>
-                    </li> -->
-            <!-- <li class="nav-item">
-                        <a class="nav-link active"  href="connectToRobot.html">connect</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active"  href="seeAllRobots.html">robots</a>
-                    </li> -->
             <li class="nav-item">
               <button
                 class="nav-link active"
@@ -81,8 +72,6 @@
           <button type="button" id="startStreamBtn" onclick="">Start</button>
           <div id="webcam-container"></div>
           <div id="label-container"></div>
-
-          <script type="text/javascript"></script>
         </div>
       </div>
     </div>
@@ -128,17 +117,17 @@
         }
       });
 
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          document.getElementById("signIn").style.display = "none";
-          document.getElementById("signUp").style.display = "none";
-        } else {
-          document.getElementById("signIn").style.display = "list-item";
-          document.getElementById("signUp").style.display = "list-item";
-          // Optionally redirect to login page if needed
-          window.location.href = "index.html";
-        }
-      });
+      // onAuthStateChanged(auth, (user) => {
+      //   if (user) {
+      //     document.getElementById("signIn").style.display = "none";
+      //     document.getElementById("signUp").style.display = "none";
+      //   } else {
+      //     document.getElementById("signIn").style.display = "list-item";
+      //     document.getElementById("signUp").style.display = "list-item";
+      //     // Optionally redirect to login page if needed
+      //     window.location.href = "index.html";
+      //   }
+      // });
 
       document
         .getElementById("logoutBtn")
@@ -151,15 +140,9 @@
     </script>
     <script type="module">
       import { init } from "./aiCode.js";
+      import { importFuncToDom } from "./index.js";
 
-      const checkElementLoaded = setInterval(() => {
-        const startBtn = document.getElementById("startStreamBtn");
-        if (startBtn) {
-          console.log("start button available.");
-          startBtn.addEventListener("click", init);
-          clearInterval(checkElementLoaded); // Stop checking once it's found
-        }
-      }, 100); // Check every 100ms
+      importFuncToDom("click", init, "startStreamBtn");
     </script>
     <script type="text/javascript"></script>
     <script src="script.js"></script>

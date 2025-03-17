@@ -18,9 +18,9 @@ export const init = async () => {
   const metadataURL = URL + "metadata.json";
 
   // load the model and metadata
-  // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+  // Refer to tmImg.loadFromFiles() in the API to support files from a file picker
   // or files from your local hard drive
-  // Note: the pose library adds "tmImage" object to your window (window.tmImage)
+  
   console.log(tmImg);
   setInterval(() => {
     console.log(tmImg);
@@ -30,7 +30,7 @@ export const init = async () => {
 
   // Convenience function to setup a webcam
   const flip = true; // whether to flip the webcam
-  webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
+  webcam = new tmImg.Webcam(200, 200, flip); // width, height, flip
   await webcam.setup(); // request access to the webcam
   await webcam.play();
   window.requestAnimationFrame(loop);
