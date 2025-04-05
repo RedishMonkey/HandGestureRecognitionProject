@@ -1,6 +1,6 @@
 // import * as tmImg from "./node_modules/@teachablemachine/image/dist/index";
 import * as tmImg from "@teachablemachine/image";
-
+// import {setUserDir} from "./firebaseUtils"
 
 
 // More API functions here:
@@ -13,18 +13,14 @@ let model, webcam, labelContainer, maxPredictions;
 
 // Load the image model and setup the webcam
 export const init = async () => {
-  console.log("yo");
   const modelURL = URL + "model.json";
   const metadataURL = URL + "metadata.json";
 
   // load the model and metadata
   // Refer to tmImg.loadFromFiles() in the API to support files from a file picker
   // or files from your local hard drive
-  
-  console.log(tmImg);
-  setInterval(() => {
-    console.log(tmImg);
-  }, 1000);
+
+
   model = await tmImg.load(modelURL, metadataURL);
   maxPredictions = model.getTotalClasses();
 
@@ -54,9 +50,13 @@ async function loop() {
 async function predict() {
   // predict can take in an image, video or canvas html element
   const prediction = await model.predict(webcam.canvas);
+  
   for (let i = 0; i < maxPredictions; i++) {
     const classPrediction =
       prediction[i].className + ": " + prediction[i].probability.toFixed(2);
     labelContainer.childNodes[i].innerHTML = classPrediction;
   }
 }
+
+
+

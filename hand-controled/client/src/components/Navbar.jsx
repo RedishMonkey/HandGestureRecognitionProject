@@ -1,27 +1,53 @@
-import React from 'react'
-import './Navbar.css'
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import "../styles/Navbar.css";
+
+import { AuthForm } from "./AuthForm";
+
+import logo from "../assets/images/small-logo-white.png";
 
 export const Navbar = () => {
-    const toggleMenu = () => {
-        console.log("Menu toggled"); // Placeholder for functionality
-    };
-    
-    const ShowBackground = () => {
-        console.log("Background shown"); // Placeholder for functionality
-    };
-  
-    return (
+  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+  const [isAuthFormOpen, setIsAuthFormOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsNavbarOpen(!isNavbarOpen);
+  };
+
+  return (
     <nav className="navbar">
-        <a href="#" className="navbar-brand">Hand Control</a>
-        <button className="navbar-toggler" onClick={toggleMenu}>☰</button>
-        <ul className="navbar-nav">
-            <li className="nav-item"><a href="index.html" className="nav-link">Home Page</a></li>
-            <li id="signIn" className="nav-item"><a href="signIn.html" className="nav-link">Sign In</a></li>
-            <li id="signUp" className="nav-item"><a href="signUp.html" className="nav-link">Sign Up</a></li>
-            <li className="nav-item"><button onClick={ShowBackground}>Show Background</button></li>
-            <li id="liveBtn" className="nav-item"><a href="seeLive.html" className="nav-link">See Live</a></li>
-            <li id="logoutBtn" className="nav-item"><button>Logout</button></li>
-        </ul>
+      <AuthForm isOpen={isAuthFormOpen} setIsOpen={setIsAuthFormOpen} />
+
+      <li className="nav-logo">
+        <NavLink to="/">
+          <img className="logo" src={logo} alt="hand controlled" />
+        </NavLink>
+      </li>
+
+      <ul className={`nav-menu ${isNavbarOpen ? "active" : ""}`}>
+        <li>
+          <div className="nav-item"></div>
+        </li>
+        <li className="nav-item">
+          <NavLink to="/">Home</NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink to="/about">About</NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink to="/contact" >Contact</NavLink>
+        </li>
+        <li className="nav-item" id="loginBtn" onClick={() => setIsAuthFormOpen(!isAuthFormOpen)}>Login</li>
+      </ul>
+
+      <button
+        className={`hamburger ${isNavbarOpen ? "active" : ""}`}
+        onClick={toggleMenu}
+      >
+        <span className="bar"></span>
+        <span className="bar"></span>
+        <span className="bar"></span>
+      </button>
     </nav>
-  )
-}
+  );
+};

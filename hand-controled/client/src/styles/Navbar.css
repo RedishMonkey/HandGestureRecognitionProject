@@ -1,0 +1,137 @@
+.navbar {
+  /* navbar */
+  background-color: #0d6efd;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 1000;
+  margin: 0;
+  color: #F5F5F5;
+}
+
+.nav-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  width: 100%;
+}
+
+.nav-item {
+  list-style: none;
+  margin: 0;
+
+}
+
+.nav-item a, #loginBtn {
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.nav-item a:hover, #loginBtn:hover {
+  color: #fff;
+  text-decoration: underline;
+  transform: scale(1.1);
+}
+
+
+.nav-logo {
+  list-style: none;
+  z-index: 1000;
+  transition: transform 0.2s ease;
+}
+
+.nav-logo:hover{
+  transform: scale(1.1);
+}
+
+.logo {
+  /* navbar */
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  padding: 0;
+  margin: 0;
+  z-index: 1000;
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1000;
+  position: absolute;
+  right: 2rem;
+}
+
+.bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  transition: all 0.3s ease-in-out;
+  background-color: white;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: var(--screen-laptop)) {
+  .nav-menu {
+    position: fixed;
+    top: -100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background-color: #0d6efd;
+    width: 100%;
+    text-align: center;
+    transition: 0.3s ease-in-out;
+    padding-top: 4rem;
+  }
+
+  .nav-menu.active {
+    top: 0;
+  }
+
+  .nav-item {
+    margin: 16px 0;
+  }
+
+  .nav-logo {
+    z-index: 1000;
+  }
+
+  /* showing the hamburger on click */
+  .hamburger {
+    display: block;
+  }
+
+
+  /* transforming the hamburger to X on click */
+  .hamburger.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+}

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "hand-recognition-a7ca9",
+  "private_key_id": "f0225577df21414c748aaddab36a88dadb1eecc4",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCWheU1H5/79lLo\nnXM/wjQc82fej7H40EQ9w7Wzk4PxmUE6/i48pOA9j22gzbZEvE/EFlX1YCEmk+mI\nWU7Q2IAJWYS5SAGri7cuXjM4nMgkREyb+Cpi7kvPwGAK+6jefxF4TU3Kj4BtC1Zx\nhjOm/U+3pVBtBbTBPQM0FMFNcHt/pdyrQcuirdj2Y+2LaJq/f6exMMuQ3GQ9Stlq\ntzmGEn1sLb2HngQA13yoDKU0TEWfHhAKu4ekrQABMoZTG0C4UaCOqJ6uiTpH8QbE\n/Bj3HMkPiuNFRC7VJZe0Lo7R2vRQLSGhXMFzmKlAeeIPX6RPaw4r9gyq6GOX/tlI\nqG2K3iR5AgMBAAECggEAD0Bs65eTPdQFLZW6lkTGxAIzzZzQwy3TJFD+yb3SOjo1\nnlUf+TwZjpNIX+lIJSnRiURcHFtLsJ1/JbYq4sV1H71m0eFGbgvfmT6pQPy92NLk\n0k7weIq9usS61pIOV9EXQ5HNpo8oy6PA9ArNlAeJuslw30MbQBM/DllmBsM1eEb9\nztwBXGp8meZrlpU/q0IDdEzqPTila3ZJXLhnnfrjWQQmvtTX9FdZ2IIc4abKFxZO\nTBNdGP7eMsr2Y18pLEEZyxjFlZaXiBassRvvYgPgbCcekeVIIEa5Akflb8gyVTBz\nRvKWQsMChFEHL2CGxZ3tYv/VbiXteOi8ss5zVjqFQQKBgQDG0MHUb6p360qNNtLR\n/4T6bIE77UIodabj85E/gyfIFsB5o8cTL8W2PAbL2xAHn3Vrv5w9npROVuG73Jbz\nxnUbXPQqpTaBlsYF497YFJFUVHHox+q6ge4YrH2EBbHgsFKFz2cUokN64S52gc9m\nxoWNeT2UF/cCReO4ahmUiQSDaQKBgQDB0UE3ATX1Ll9sqq0s1DE879vRBFAYCeII\ngm7/wo4iTXw7d5p2QULh202FKV4F6UiiWeaEAqquK5Jq4aE2W2KUpUd7IqAR7m/1\n/zfL3UXB8q/cF2MNhpec6DzDVfT9SdDWU2G1BARst2bjTAmOPITG/9CRepV9C6BH\nzfS2yTlGkQKBgQCR5xuH6hbhAHRqo6QdZnZRTRWeQ+S8SnMacGHUiUzFgyTnX7C1\nvOZMcUrPicj+vx/t3eUsN1dBEnOAaUcCSU8hsJqjPTF98ocKRYsBaj6o83vQx/3T\nt4xi4RsPqxo5+UvmVSmhs97vq5dscqEhHGlgRGxTZS7ppR6T9JEnN1JvmQKBgEQX\nL8ITOtGYKQ4UKCLHqUSvP5p+2WSYlEBJEpXn0+dZMXvy2OESrFyMnv9ZOR76hfoD\ne2iFR1FJHXdPLUPbdxahuisYTwP9sHfL4d5NLmSkzgOUc8gcsMb/D9nQKPGTLTse\nsATYFHXdONhBrlm6CSugU7XISxxTKUwQnxhYOTcBAoGBAIdBu2RkdKT/oQ4OBUs2\nfPJlI1TLknzlelqOMNWss1CR2OPvfaVHGBYUmk6AJr9uVImDQ+deeucLp1ItJYNv\ncp+hOIQ71h+lHACJwL2JV2e9AASbmj1Yx6jw4NjkJCmUjmQ0rEBVyKxPpPOZjFkW\n/cZZ/kgvFe7HVU0MeT6zekpR\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-r41n7@hand-recognition-a7ca9.iam.gserviceaccount.com",
+  "client_id": "110628273100005670821",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-r41n7%40hand-recognition-a7ca9.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

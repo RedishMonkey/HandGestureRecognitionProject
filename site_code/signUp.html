@@ -89,7 +89,6 @@
         const app = initializeApp(firebaseConfig);
         
         document.getElementById("submitBtn").addEventListener("click",async () => {
-            console.log("dsjf")
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
             const username = document.getElementById("username").value;
@@ -107,7 +106,7 @@
 
                 const database = getDatabase();
                 const userRef = ref(database, `users/${uid}`);
-                const worked = await set(userRef, {email , password, username})
+                const worked = await set(userRef, {email , password, username, direction: "up"})
                 console.log(worked)
                 window.location.href = "seeLive.html";
 

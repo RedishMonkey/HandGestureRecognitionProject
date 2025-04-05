@@ -1,0 +1,24 @@
+.custom-body {
+  min-height: 100vh;
+}
+
+.content-item {
+  margin: 10px 0;
+  padding: 0;
+}
+
+#welcome-to-our-site {
+  margin-top: 0;
+}
+
+#enjoy-the-future-of-technology{
+  margin-bottom: 0;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 1.5rem;
+  justify-content: space-between;
+}
+

@@ -1,0 +1,48 @@
+
+
+.customCard {
+  margin: 10px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+  transition: 0.3s ease;
+  padding: 1rem;
+  border-radius: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+}
+
+.customCard:hover {
+  transform: scale(1.05) translateY(-10px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+}
+
+.customCardImg {
+  height: 200px;
+  object-fit: cover;
+}
+
+.customCardHeader {
+  color: #0d6efd;
+  font-weight: bold;
+}
+
+.customCardTxt {
+  color: #6c757d;
+}
+
+@media screen and (max-width: var(--screen-mobile)) {
+  .customCard {
+    width: 60%;
+    margin: 10px auto;
+  }
+}
+
+@media screen and (min-width: var(--screen-laptop)) {
+  .container {
+    width: 20%;
+    margin: 15px 0;
+  }
+}
+
