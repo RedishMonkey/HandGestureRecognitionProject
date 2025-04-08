@@ -1,5 +1,12 @@
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --screen-mobile: 480px;
+  --screen-laptop: 1024px;
+  --basic-blue: #0d6efd;
+  --basic-white: #fff;
+  --navbar-z-index: 1000;
+  --error-color: #ff4444;
+  --basic-blue-faded: #4a90e2;
 }
 
 

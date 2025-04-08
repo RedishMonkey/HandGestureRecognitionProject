@@ -1,8 +1,3 @@
-:root {
-  --screen-mobile: 480px;
-  --screen-laptop: 1024px;
-}
-
 /* Ensure the body and html take full height */
 html, body {
   margin: 0;

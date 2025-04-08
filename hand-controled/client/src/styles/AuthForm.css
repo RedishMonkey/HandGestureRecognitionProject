@@ -48,7 +48,7 @@
 .auth-button {
     width: 100%;
     padding: 0.75rem;
-    background-color: #4a90e2;
+    background-color: var(--basic-blue);
     color: white;
     border: none;
     border-radius: 4px;
@@ -59,7 +59,7 @@
 }
 
 .auth-button:hover {
-    background-color: #357abd;
+    background-color: var(--basic-blue-faded);
 }
 
 .auth-switch {
@@ -76,4 +76,15 @@
     text-decoration: underline;
     cursor: pointer;
 }
+
+.error-message {
+  color: var(--error-color);
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+
 

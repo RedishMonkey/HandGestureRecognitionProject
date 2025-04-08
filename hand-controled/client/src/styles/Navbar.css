@@ -12,7 +12,7 @@
   right: 0;
   width: 100%;
   box-sizing: border-box;
-  z-index: 1000;
+  z-index: var(--navbar-z-index);
   margin: 0;
   color: #F5F5F5;
 }
@@ -33,7 +33,7 @@
 
 }
 
-.nav-item a, #loginBtn {
+.nav-item a, .auth-btn {
   color: #fff;
   text-decoration: none;
   transition: transform 0.2s ease;
@@ -42,7 +42,7 @@
   cursor: pointer;
 }
 
-.nav-item a:hover, #loginBtn:hover {
+.nav-item a:hover, .auth-btn:hover {
   color: #fff;
   text-decoration: underline;
   transform: scale(1.1);
@@ -51,7 +51,7 @@
 
 .nav-logo {
   list-style: none;
-  z-index: 1000;
+  z-index: var(--navbar-z-index);
   transition: transform 0.2s ease;
 }
 
@@ -66,7 +66,7 @@
   object-fit: contain;
   padding: 0;
   margin: 0;
-  z-index: 1000;
+  z-index: var(--navbar-z-index);
 }
 
 .hamburger {
@@ -75,7 +75,7 @@
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: 1000;
+  z-index: var(--navbar-z-index);
   position: absolute;
   right: 2rem;
 }
@@ -90,7 +90,7 @@
   border-radius: 10px;
 }
 
-@media screen and (max-width: var(--screen-laptop)) {
+@media screen and (max-width: 1024px) {
   .nav-menu {
     position: fixed;
     top: -100%;

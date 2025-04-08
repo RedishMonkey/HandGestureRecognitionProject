@@ -4,15 +4,28 @@ import "../styles/Navbar.css";
 
 import { AuthForm } from "./AuthForm";
 
+import { signOut, me } from "../api/auth";
+import { useAuth } from "./AuthProvider";
+
 import logo from "../assets/images/small-logo-white.png";
 
 export const Navbar = () => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isAuthFormOpen, setIsAuthFormOpen] = useState(false);
+  const { isSignedIn, setIsSignedIn } = useAuth();
 
   const toggleMenu = () => {
     setIsNavbarOpen(!isNavbarOpen);
   };
+
+  const getAuthState = () => {
+    console.log(authState);
+  }
+  
+  // const doSignIn = () => {
+  //   setIsSignedIn(true);
+  //   signIn({username: "test", password: "test"});
+  // }
 
   return (
     <nav className="navbar">
@@ -37,7 +50,8 @@ export const Navbar = () => {
         <li className="nav-item">
           <NavLink to="/contact" >Contact</NavLink>
         </li>
-        <li className="nav-item" id="loginBtn" onClick={() => setIsAuthFormOpen(!isAuthFormOpen)}>Login</li>
+        {!isSignedIn && <li className="nav-item auth-btn" onClick={() => setIsAuthFormOpen(!isAuthFormOpen)}>Login</li>}
+        {isSignedIn && <li className="nav-item auth-btn" onClick={signOut}>Signout</li>}
       </ul>
 
       <button

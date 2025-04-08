@@ -41,7 +41,6 @@ const addUser = async (username, email, password) => {
 };
 
 const getUser = async (username) => {
-  console.log("getting user");
   const userRef = usersRef.child(username);
 
   const userData = (await userRef.once("value")).val();
