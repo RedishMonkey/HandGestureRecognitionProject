@@ -4,7 +4,7 @@ import "../styles/Navbar.css";
 
 import { AuthForm } from "./AuthForm";
 
-import { signOut, me } from "../api/auth";
+import { signOut} from "../api/auth";
 import { useAuth } from "./AuthProvider";
 
 import logo from "../assets/images/small-logo-white.png";
@@ -12,46 +12,47 @@ import logo from "../assets/images/small-logo-white.png";
 export const Navbar = () => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isAuthFormOpen, setIsAuthFormOpen] = useState(false);
-  const { isSignedIn, setIsSignedIn } = useAuth();
+  const { isSignedIn, startPending, endPending } = useAuth();
 
   const toggleMenu = () => {
     setIsNavbarOpen(!isNavbarOpen);
   };
 
-  const getAuthState = () => {
-    console.log(authState);
-  }
+
   
-  // const doSignIn = () => {
-  //   setIsSignedIn(true);
-  //   signIn({username: "test", password: "test"});
-  // }
+  const doSignOut = async () => {
+    startPending();
+    await signOut();
+    setIsNavbarOpen(false);
+    endPending();
+  }
 
   return (
     <nav className="navbar">
       <AuthForm isOpen={isAuthFormOpen} setIsOpen={setIsAuthFormOpen} />
 
       <li className="nav-logo">
-        <NavLink to="/">
+        <NavLink to="/" onClick={() => setIsNavbarOpen(!isNavbarOpen)}>
           <img className="logo" src={logo} alt="hand controlled" />
         </NavLink>
       </li>
 
       <ul className={`nav-menu ${isNavbarOpen ? "active" : ""}`}>
         <li>
-          <div className="nav-item"></div>
+          <div className="nav-item" onClick={() => setIsNavbarOpen(!isNavbarOpen)}></div>
         </li>
         <li className="nav-item">
-          <NavLink to="/">Home</NavLink>
+          <NavLink to="/" onClick={() => setIsNavbarOpen(false)}>Home</NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/about">About</NavLink>
+          <NavLink to="/about" onClick={() => setIsNavbarOpen(false)}>About</NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/contact" >Contact</NavLink>
+          <NavLink to="/contact" onClick={() => setIsNavbarOpen(false)}>Contact</NavLink>
         </li>
         {!isSignedIn && <li className="nav-item auth-btn" onClick={() => setIsAuthFormOpen(!isAuthFormOpen)}>Login</li>}
-        {isSignedIn && <li className="nav-item auth-btn" onClick={signOut}>Signout</li>}
+        {isSignedIn && <li className="nav-item"> <NavLink to="/profile" onClick={() => setIsNavbarOpen(false)}>Profile</NavLink></li>}
+        {isSignedIn && <li className="nav-item auth-btn" onClick={doSignOut}>Signout</li>}
       </ul>
 
       <button

@@ -1,7 +1,7 @@
 const { signUpSchema, signInSchema } = require("../lib/validation/users");
 const { z } = require("zod");
 const bcrypt = require("bcrypt");
-const { userExists } = require("../lib/users");
+const { userExists } = require("../lib/firebaseUtils");
 const { addUser, getUser } = require("../lib/firebaseUtils");
 const { setTokenCookie } = require("../lib/validation/coockies");
 

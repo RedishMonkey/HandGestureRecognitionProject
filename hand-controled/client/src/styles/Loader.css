@@ -1,0 +1,72 @@
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  color: #000;
+  --dot-animation-duration: 1.5s;
+  background-color: var(--basic-white);
+  position: absolute;
+  z-index: 1001;
+}
+
+.loader-icon {
+  height: 100px;
+  width: 100px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loader-text{
+    font-size: 24px;
+    font-weight: 450;
+    color: #000;
+    margin-top: 20px;
+}
+
+.loading-dots {
+  display: inline-block;
+}
+
+.loading-dots span {
+  display: inline-block;
+  margin: 0 2px;
+}
+
+.loading-dots span:nth-child(1) {
+  animation: dotBounce var(--dot-animation-duration) infinite ease-in-out;
+  animation-delay: 0s;
+}
+
+.loading-dots span:nth-child(2) {
+  animation: dotBounce var(--dot-animation-duration) infinite ease-in-out;
+  animation-delay: calc(var(--dot-animation-duration) / 4);
+}
+
+.loading-dots span:nth-child(3) {
+  animation: dotBounce var(--dot-animation-duration) infinite ease-in-out;
+  animation-delay: calc(var(--dot-animation-duration) / 2);
+}
+
+@keyframes dotBounce {
+  0% {
+    transform: scale(1) translateY(0%);
+  }
+  50% {
+    transform: scale(1.5) translateY(-25%);
+  }
+  100% {
+    transform: scale(1) translateY(0%);
+  }
+}
+  

@@ -1,14 +1,34 @@
-import {createContext, useState, useContext, useEffect} from 'react';
-import {me} from '../api/auth';
+import {createContext, useState, useContext, useEffect, useCallback} from 'react';
+import { me } from '../api/auth';
 import { useNavigate } from 'react-router-dom';
+// import { useIsPending } from '../hooks/useIsPending';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [isSignedIn, setIsSignedIn] = useState(false);
-    // const [isPending, startTransition] = useState(true);
+    const [pendingCount, setPendingCount] = useState(0);
+    const [isPending, setIsPending] = useState(true);
     
+
+    const startPending = useCallback(() => {
+      setPendingCount(prev => {
+        const newCount = prev + 1;
+        setIsPending(newCount > 0);
+        return newCount;
+      });
+    }, []);
+  
+
+    const endPending = useCallback(() => {
+      setPendingCount(prev => {
+        const newCount = Math.max(0, prev - 1);
+        setIsPending(newCount > 0);
+        return newCount;
+      });
+    }, []);
+
     const navigate = useNavigate();
 
     const isTokenExpired = (expireTime) => {
@@ -21,27 +41,29 @@ export const AuthProvider = ({children}) => {
 
     const checkAuth = async () => {
         try{
+            startPending();
             const userData = await me();
 
-
             if(!userData?.exp){
+                console.log("No exp field in userData");
                 throw new Error('User not logged in');
             }
 
             if(!userData?.exp || isTokenExpired(userData.exp)){
+                console.log("Token expired or missing");
                 throw new Error('Token expired');
             }
 
             setUser(userData);
             setIsSignedIn(true);
         } catch(error){
-            console.log('Error fetching user data:', error);
+            console.log('Error in checkAuth:', error);
             setIsSignedIn(false);  
             setUser(null);
             navigate('/');
         }
         finally{
-            // setIsPending(false);
+            endPending();
         }
     }
 
@@ -51,7 +73,7 @@ export const AuthProvider = ({children}) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{user, isSignedIn, setIsSignedIn, setIsSignedIn}}>
+        <AuthContext.Provider value={{user, isSignedIn, setIsSignedIn, isPending, startPending, endPending }}>
             {children}
         </AuthContext.Provider>
     );

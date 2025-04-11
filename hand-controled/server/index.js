@@ -14,7 +14,7 @@ app.use(cors({
 }));
 
 
-const routes = require('./routes/users');
+const routes = require('./routes');
 
 
 

@@ -3,11 +3,9 @@ const { getUser } = require("../lib/firebaseUtils");
 
 const auth = async (req, res, next) => {
   try {
-    console.log("Starting authentication process...");
     
     // get token from cookies
     const token = req.cookies?.token;
-    console.log("Token from cookies:", token ? "exists" : "not found");
     
     // check if token exists
     if (!token) {

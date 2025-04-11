@@ -67,4 +67,6 @@ const updateUserSchema = z.object({
 module.exports = {
   signUpSchema,
   signInSchema,
+  usernameValidation,
+  // updateUserSchema
 }

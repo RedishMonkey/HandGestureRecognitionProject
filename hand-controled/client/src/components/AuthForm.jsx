@@ -3,12 +3,14 @@ import { Modal } from "./Modal";
 import "../styles/AuthForm.css";
 import { signIn, signUp } from "../api/auth";
 import { useAuth } from "./AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 export const AuthForm = ({ isOpen, setIsOpen }) => {
   const [authType, setAuthType] = useState("Login");
   const [errorMessage, setErrorMessage] = useState("");
-  
-  const { setIsSignedIn } = useAuth();
+  const navigate = useNavigate();
+
+  const { setIsSignedIn, startPending, endPending } = useAuth();
 
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
@@ -30,7 +32,9 @@ export const AuthForm = ({ isOpen, setIsOpen }) => {
     const username = usernameRef.current?.value;
     
     try {
+      startPending();
       let response;
+
       if(authType === "Login") {
         response = await signIn({ username, password });
       } else {
@@ -40,16 +44,19 @@ export const AuthForm = ({ isOpen, setIsOpen }) => {
         }
         response = await signUp({ email, password, username });
       }
-      console.log(response);
+
       if (response.success) {
         setIsSignedIn(true);
         setIsOpen(false);
+        navigate(0); // This will reload the current page
       } else {
         setErrorMessage(response.message);
       }
     } catch (error) {
-      // console.log(error);
+      console.log(error);
       setErrorMessage("An unexpected error occurred. Please try again.");
+    } finally {
+      endPending();
     }
   };
 

@@ -14,7 +14,7 @@ const userExists = async (username) => {
         // Check if any user in the Firebase database has the given username
         return Object.keys(users).some(user => user === username);
     } catch (error) {
-        console.error('Error checking user existence:', error);
+        console.log('Error checking user existence:', error);
         throw error;
     }
 }

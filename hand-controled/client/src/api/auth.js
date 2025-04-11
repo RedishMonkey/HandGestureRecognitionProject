@@ -1,5 +1,6 @@
 import api from "./api";
 
+
 export const signIn = async (payload) => {
   try {
     const response = await api.post("/sign-in", payload);
@@ -16,6 +17,7 @@ export const signIn = async (payload) => {
 
 export const signUp = async (username, password) => {
   try {
+
     const response = await api.post("/auth/signup", { username, password });
 
     // axios automatically checks if the status code is an error status code and throws an error    
@@ -47,10 +49,10 @@ export const signOut = async () => {
 export const me = async () => {
   try {
     const { data } = await api.get("/me");
-
     return data;
   } catch (error) {
     const errorMessage = error.response?.data?.message || "An error occurred during sign up";
-    console.log(errorMessage);
+    console.log("Error in me() call:", errorMessage);
+    return null;
   }
 };
