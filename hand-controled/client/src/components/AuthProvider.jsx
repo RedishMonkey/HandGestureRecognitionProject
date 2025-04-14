@@ -45,12 +45,12 @@ export const AuthProvider = ({children}) => {
             const userData = await me();
 
             if(!userData?.exp){
-                console.log("No exp field in userData");
+                // console.log("No exp field in userData");
                 throw new Error('User not logged in');
             }
 
             if(!userData?.exp || isTokenExpired(userData.exp)){
-                console.log("Token expired or missing");
+                // console.log("Token expired or missing");
                 throw new Error('Token expired');
             }
 

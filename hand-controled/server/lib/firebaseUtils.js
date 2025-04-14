@@ -1,10 +1,12 @@
 const admin = require("firebase-admin");
-const path = require("path");
-const serviceAccount = require(path.join(__dirname, "../firebase_key.json"));
+// const path = require("path");
+// const serviceAccount = require(path.join(__dirname, "../firebase_key.json"));
+const { fsk } = require("./utils");
+
 
 // Initialize the app with a service account, granting admin privileges
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(fsk),
 
   // The database URL depends on the location of the database
   databaseURL:
@@ -343,7 +345,7 @@ const getUserRobotState = async (username, macAddress) => {
     const robotData = (await robotRef.once("value")).val();
     if (!robotData) throw new Error("Robot does not exist");
     
-    
+
     return robotData.state;
   }
   catch (error) {

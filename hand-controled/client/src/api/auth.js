@@ -52,7 +52,7 @@ export const me = async () => {
     return data;
   } catch (error) {
     const errorMessage = error.response?.data?.message || "An error occurred during sign up";
-    console.log("Error in me() call:", errorMessage);
+    console.log("Error in me call:", errorMessage);
     return null;
   }
 };

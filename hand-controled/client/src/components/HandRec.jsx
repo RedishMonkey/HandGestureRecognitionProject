@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { HandLandmarker, FilesetResolver } from "@mediapipe/tasks-vision";
+import {
+  HandLandmarker,
+  FilesetResolver,
+} from "@mediapipe/tasks-vision";
 
 import { setRobotState } from "../api/users";
 
@@ -10,13 +13,13 @@ export const HandRec = ({ macAddress }) => {
   const canvasRef = useRef(null);
   const directionRef = useRef(null);
   const enableWebcamRef = useRef(false);
-  const liveDivRef = useRef(null);
   const [handLandmarker, setHandLandmarker] = useState(null);
+  const liveDivRef = useRef(null);
   let frameCounter = 0;
-  let direction = "stop";
+  let direction = "no hand detected";
   let isWebcamEnabled = false;
+  let lastDirection = "stop";
   let lastTimeSetState = 0;
-  let lastState = "stop";
 
   useEffect(() => {
     const loadModel = async () => {
@@ -95,6 +98,7 @@ export const HandRec = ({ macAddress }) => {
     ctx.stroke();
   };
 
+
   const enableWebcam = async () => {
     if (!handLandmarker) {
       console.warn("Model not loaded yet.");
@@ -109,9 +113,12 @@ export const HandRec = ({ macAddress }) => {
       videoRef.current.srcObject = null;
       liveDivRef.current.style.display = "none";
       lastTimeSetState = 0;
+      lastDirection = "stop";
       return;
     }
+
     liveDivRef.current.style.display = "block";
+    liveDivRef.current.style.position = "relative";
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -196,6 +203,7 @@ export const HandRec = ({ macAddress }) => {
       // Draw the video
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
+
       //   Draw the circle (after transformations)
       if (landmarks)
         drawArrow(
@@ -222,16 +230,13 @@ export const HandRec = ({ macAddress }) => {
         else if (angle > 225 && angle < 315) direction = "backward";
       } else direction = "stop";
 
-      directionRef.current.textContent =
-        direction === "stop"
-          ? `direction: no hands detected`
-          : `direction: ${direction}`;
 
-      if (direction !== "stop" && (video.currentTime - lastTimeSetState > 0.25 || lastState !== direction)) {
-        setRobotState(macAddress, direction);
+      directionRef.current.textContent = direction === "stop" ? "no hand detected" : `direction: ${direction}`;
+      
+      if(direction !== lastDirection || (video.currentTime - lastTimeSetState) > 0.25){
+        lastDirection = direction;
         lastTimeSetState = video.currentTime;
-        lastState = direction;
-        console.log("set robot state to: ", direction);
+        setRobotState(macAddress, direction);
       }
     } catch (err) {
       console.error("Error processing video frame:", err);
@@ -249,9 +254,9 @@ export const HandRec = ({ macAddress }) => {
       >
         Enable Webcam
       </button>
-      <div ref={liveDivRef} style={{ position: "relative" , display: "none"}}>
+      <div ref={liveDivRef} style={{ display: "none" }}>
         <video ref={videoRef} style={{ display: "none" }} />
-        <canvas ref={canvasRef} className="hand-rec-canvas" />
+        <canvas ref={canvasRef} style={{ width: "100%", height: "100%" }} />
         <p
           ref={directionRef}
           style={{
@@ -260,7 +265,7 @@ export const HandRec = ({ macAddress }) => {
             left: "10px",
             color: "white",
           }}
-        ></p>
+        >dlfjsd</p>
       </div>
     </div>
   );

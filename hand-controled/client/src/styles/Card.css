@@ -32,17 +32,4 @@
   color: #6c757d;
 }
 
-@media screen and (max-width: var(--screen-mobile)) {
-  .customCard {
-    width: 60%;
-    margin: 10px auto;
-  }
-}
-
-@media screen and (min-width: var(--screen-laptop)) {
-  .container {
-    width: 20%;
-    margin: 15px 0;
-  }
-}
 

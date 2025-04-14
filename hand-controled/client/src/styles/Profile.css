@@ -179,6 +179,19 @@ button.basic-btn:disabled, button.basic-btn:disabled:hover, button.basic-btn:dis
 }
 
 
+@media screen and (max-width: 768px) {
+    .table-headers .small-screen-hidden,
+    .table-cell.small-screen-hidden,
+    .table-cell button.small-screen-hidden,
+    .table-cell span.small-screen-hidden,
+    .profile-image-container.small-screen-hidden {
+        display: none;
+        opacity: 0;
+    }
+
+}
+
+
 
 
 

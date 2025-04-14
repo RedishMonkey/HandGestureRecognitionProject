@@ -79,7 +79,9 @@ export const setRobotNickname = async (macAddress, nickname) => {
 
 export const setRobotState = async (macAddress, state) => {
     try {
-        await api.post("/set-robot-state", { macAddress, state });
+        const { data } = await api.post("/set-robot-state", { macAddress, state });
+
+        return data;
     } catch (error) {
         if (error.response?.data?.message) {
             console.log(error.response.data.message);

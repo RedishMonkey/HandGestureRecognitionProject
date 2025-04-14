@@ -131,7 +131,7 @@ export const Profile = () => {
       <div className="profile-container">
         <h1 className="profile-title">Profile</h1>
         <div className="headers">
-          <span className="profile-image-container">
+          <span className="profile-image-container small-screen-hidden">
             <ProfileImg ProfileImg={image} placeholder="No profile image" />
             <button
               className="basic-btn"
@@ -153,7 +153,7 @@ export const Profile = () => {
 
           <ul className="table-headers">
             {connectedRobotHeaders.map((header, index) => (
-              <li key={index} className="table-header">
+              <li key={index} className={`table-header ${header === "mac address" ? "small-screen-hidden" : ""}`}>
                 {header}
               </li>
             ))}
@@ -163,7 +163,7 @@ export const Profile = () => {
               usersRobots.map((robot, index) => (
                 <li key={index}>
                   <span className="table-cell">{robot.nickname}</span>
-                  <span className="table-cell">{robot.macAddress}</span>
+                  <span className="table-cell small-screen-hidden">{robot.macAddress}</span>
                   <span
                     className={`table-cell ${
                       pendingRows.includes(robot.macAddress) ? "pending" : ""
@@ -184,9 +184,9 @@ export const Profile = () => {
                     >
                       Remove
                     </button>
-                    /
+                    <span className="small-screen-hidden">/</span>
                     <button
-                      className="basic-btn basic-inverted-btn"
+                      className="basic-btn basic-inverted-btn small-screen-hidden"
                       onClick={() => handleSetRobotNickname(robot.macAddress, robot.nickname)}
                     >
                       Set Nickname

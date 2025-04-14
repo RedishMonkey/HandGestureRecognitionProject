@@ -1,6 +1,7 @@
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   --screen-mobile: 480px;
+  --screen-tablet: 768px;
   --screen-laptop: 1024px;
   --basic-blue: #0d6efd;
   --basic-white: #fff;
