@@ -1,8 +1,25 @@
-const { signUpSchema, signInSchema } = require("../lib/validation/users");
+const {
+  signUpSchema,
+  signInSchema,
+  setProfileImgSchema,
+  removeRobotSchema,
+  setRobotNicknameSchema,
+  setRobotStateSchema,
+  getRobotStateSchema,
+} = require("../lib/validation/users");
 const { z } = require("zod");
 const bcrypt = require("bcrypt");
-const { userExists } = require("../lib/firebaseUtils");
-const { addUser, getUser } = require("../lib/firebaseUtils");
+const {
+  userExists,
+  addUser,
+  getUser,
+  setUsersProfileImg,
+  getUsersProfileImg,
+  removeUsersRobot,
+  setUserRobotNickname,
+  setUserRobotState,
+  getUserRobotState,
+} = require("../lib/firebaseUtils");
 const { setTokenCookie } = require("../lib/validation/coockies");
 
 const signUp = async (req, res) => {
@@ -19,7 +36,13 @@ const signUp = async (req, res) => {
 
     await addUser(username, email, hashedPassword);
 
-    setTokenCookie(res, username, hashedPassword, email, process.env.JWT_SECRET);
+    setTokenCookie(
+      res,
+      username,
+      hashedPassword,
+      email,
+      process.env.JWT_SECRET
+    );
 
     return res.status(201).json({ message: "user created successfully" });
   } catch (error) {
@@ -47,7 +70,13 @@ const signIn = async (req, res) => {
     if (!passwordMatch) {
       return res.status(400).json({ message: "invalid username or password" });
     }
-    setTokenCookie(res, username, user.password, user.email, process.env.JWT_SECRET);
+    setTokenCookie(
+      res,
+      username,
+      user.password,
+      user.email,
+      process.env.JWT_SECRET
+    );
     return res.status(200).json({ message: "Login successfully" });
   } catch (error) {
     console.log(error);
@@ -72,16 +101,130 @@ const signOut = async (req, res) => {
 const me = async (req, res) => {
   try {
     const user = req.user;
-    
+
     return res.status(200).json(user);
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
 
+const setProfileImg = async (req, res) => {
+  try {
+    const { profileImg } = setProfileImgSchema.parse(req.body);
+    const user = req.user;
+
+    await setUsersProfileImg(user.username, profileImg);
+
+    return res.status(200).json({ message: "Profile image set successfully" });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      console.log(error.errors[0].message);
+      return res.status(400).json({ message: error.errors[0].message });
+    }
+
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const getProfileImg = async (req, res) => {
+  try {
+    const user = req.user;
+
+    const profileImg = await getUsersProfileImg(user.username);
+
+    return res.status(200).json({ profileImg });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const removeRobot = async (req, res) => {
+  try {
+    const { macAddress } = removeRobotSchema.parse(req.body);
+    const user = req.user;
+
+    await removeUsersRobot(user.username, macAddress);
+
+    return res.status(200).json({ message: "Robot removed successfully" });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      console.log(error.errors[0].message);
+      return res.status(400).json({ message: error.errors[0].message });
+    }
+
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const setRobotNickname = async (req, res) => {
+  try {
+    const { macAddress, nickname } = setRobotNicknameSchema.parse(req.body);
+    const user = req.user;
+
+    await setUserRobotNickname(user.username, macAddress, nickname);
+
+    return res.status(200).json({ message: "Robot nickname set successfully" });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      console.log(error.errors[0].message);
+      return res.status(400).json({ message: error.errors[0].message });
+    }
+
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+const setRobotState = async (req, res) => {
+  try {
+    const { macAddress, state } = setRobotStateSchema.parse(req.body);
+    const user = req.user;
+
+    await setUserRobotState(user.username, macAddress, state);
+
+    return res.status(200).json({ message: "Robot state set successfully" });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      console.log(error.errors[0].message);
+      return res.status(400).json({ message: error.errors[0].message });
+    }
+
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+
+}
+
+const getRobotState = async (req, res) => {
+  try {
+    const { macAddress } = getRobotStateSchema.parse(req.body);
+    const user = req.user;
+
+    const state = await getUserRobotState(user.username, macAddress);
+
+    return res.status(200).json({ state });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      console.log(error.errors[0].message);
+      return res.status(400).json({ message: error.errors[0].message });
+    }
+
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 module.exports = {
   signUp,
   signIn,
   signOut,
   me,
+  setProfileImg,
+  getProfileImg,
+  removeRobot,
+  setRobotNickname,
+  setRobotState,
+  getRobotState,
 };

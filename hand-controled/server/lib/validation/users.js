@@ -1,29 +1,6 @@
 const { z } = require('zod');
+const { usernameValidation, passwordValidation, macAddressValidation } = require('./single');
 
-
-const usernameValidation = z
-.string()
-.min(3, {
-  message: 'Username must be at least 3 characters long',
-  check: 'passed',
-})
-.max(20, {
-  message: 'Username must be at most 20 characters long',
-  check: 'passed',
-})
-.regex(/^[a-zA-Z0-9_]+$/, {
-  message: 'Username must contain only letters, numbers, and underscores',
-  check: 'passed',
-})
-
-const passwordValidation = z
-.string()
-.min(8, {
-  message: 'Password must be at least 8 characters long',
-})
-.max(20, {
-  message: 'Password must be at most 15 characters long',
-})
 
 const signUpSchema = z.object({
   username: usernameValidation,
@@ -39,34 +16,38 @@ const signInSchema = z.object({
   password: passwordValidation,
 });
 
+const setProfileImgSchema = z.object({
+  profileImg: z.string(),
+});
 
-const updateUserSchema = z.object({
-  fullName: z.string().min(4, {
-    message: 'Full name must be at least 4 characters long',
-  })
-  .max(20, {
-    message: 'Full name must be at most 20 characters long',
-  })
-  .regex(/^[a-zA-Z\s]*$/, {
-    message: 'Full name must contain only letters and spaces',
-  })
-  .refine((data) => data.trim().split(' ').length > 1, {
-    message: 'Full name must contain only letters and spaces',
-  })
-  .optional(),
-  username: usernameValidation.optional(),
-  email: z.string().email().optional(),
-  password: passwordValidation.optional()
-})
-.refine(data => {
-  return Object.values(data).some(value => value !== undefined);
-}, {
-  message: "At least one field must be provided for update"
+const removeRobotSchema = z.object({
+  macAddress: macAddressValidation,
+});
+
+const setRobotNicknameSchema = z.object({
+  macAddress: macAddressValidation,
+  nickname: z.string(),
+});
+
+const setRobotStateSchema = z.object({
+  macAddress: macAddressValidation,
+  state: z.enum(["forward", "backward", "left", "right", "stop"], {
+    message: "Invalid robot state",
+  }),
+});
+
+
+const getRobotStateSchema = z.object({
+  macAddress: macAddressValidation,
 });
 
 module.exports = {
   signUpSchema,
   signInSchema,
   usernameValidation,
-  // updateUserSchema
+  setProfileImgSchema,
+  removeRobotSchema,
+  setRobotNicknameSchema,
+  setRobotStateSchema,
+  getRobotStateSchema,
 }

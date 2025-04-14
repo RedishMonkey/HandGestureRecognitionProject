@@ -7,6 +7,14 @@ import {
   denyLinkReq,
 } from "../api/robots";
 
+import { getProfileImg, removeRobot } from "../api/users";
+
+import { ChangeProfileImg } from "./ChangeProfileImg";
+import { ProfileImg } from "./ProfileImg";
+import { SetRobotNickname } from "./SetRobotNickname";
+
+import { useNavigate } from "react-router-dom";
+
 import "../styles/Profile.css";
 
 export const Profile = () => {
@@ -15,9 +23,12 @@ export const Profile = () => {
   const [usersLinkReqs, setUsersLinkReqs] = useState([]);
   const [usersRobots, setUsersRobots] = useState([]);
   const [pendingRows, setPendingRows] = useState([]);
+  const [isChangeProfileImgOpen, setIsChangeProfileImgOpen] = useState(false);
+  const [isSetRobotNicknameOpen, setIsSetRobotNicknameOpen] = useState(false);
+  const [robotMacAddress, setRobotMacAddress] = useState(null);
+  const [robotNickname, setRobotNickname] = useState(null);
+  const navigate = useNavigate();
 
-
-  
   const linkReqHeaders = ["mac address", "accept/deny"];
   const connectedRobotHeaders = [
     "nickname",
@@ -25,12 +36,25 @@ export const Profile = () => {
     "connect/disconnect",
   ];
 
+  const fetchUsersLinkReqs = async () => {
+    const data = await getUsersLinkReqs(user.username);
+    setUsersLinkReqs(data?.usersLinkReqs ? data.usersLinkReqs : []);
+  };
+
+  const fetchUsersRobots = async () => {
+    const robots = await getUsersRobots(user.username);
+    setUsersRobots(robots ? robots : []);
+  };
+  const fetchProfileImg = async () => {
+    const profileImg = await getProfileImg(user.username);
+    SetImage(profileImg);
+  };
+
   const fetchData = async () => {
     try {
-      const data = await getUsersLinkReqs(user.username);
-      setUsersLinkReqs(data.usersLinkReqs ? data.usersLinkReqs : []);
-      const robots = await getUsersRobots(user.username);
-      setUsersRobots(robots ? robots : []);
+      fetchUsersLinkReqs();
+      fetchUsersRobots();
+      fetchProfileImg();
     } catch (error) {
       console.log("Error fetching user link requests:", error);
     }
@@ -38,45 +62,37 @@ export const Profile = () => {
 
   useEffect(() => {
     fetchData();
-  }, []); // Only depend on user and isPending
+  }, []);
 
-  const handleImageChange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      SetImage(file);
+  
+
+  const handleConnect = (macAddress, nickname) => navigate("/connect-to-robot", { state: { macAddress, nickname } });
+
+  const handleRemoveRobot = async (macAddress) => {
+    try {
+      setPendingRows([...pendingRows, macAddress]);
+      await removeRobot(macAddress);
+      await fetchUsersRobots();
+    } catch (error) {
+      console.error("Error removing robot:", error);
+    } finally {
+      setPendingRows(pendingRows.filter((row) => row !== macAddress));
     }
-    const reader = new FileReader();
 
-    reader.onloadend = async () => {
-      const base64String = reader.result;
-      SetImage(base64String);
-      console.log(base64String);
-    };
-    reader.onerror = (error) => {
-      console.error("Error reading image:", error);
-    };
-
-    reader.readAsDataURL(file);
-  };
-
-  const handleConnect = (macAddress) => {
-    console.log("connect to robot: ", macAddress);
-  };
-
-  const handleDisconnect = (macAddress) => {
-    console.log("disconnect from robot: ", macAddress);
+    // logic to remove robot from usersRobots
   };
 
   const handleAcceptLinkReq = async (macAddress) => {
     try {
       setPendingRows([...pendingRows, macAddress]);
       await acceptLinkReq(user.username, macAddress);
-      await fetchData();
+      await fetchUsersRobots();
+      await fetchUsersLinkReqs();
     } catch (error) {
       console.error("Error accepting link request:", error);
       // You might want to show an error message to the user here
     } finally {
-      setPendingRows(pendingRows.filter(row => row !== macAddress));
+      setPendingRows(pendingRows.filter((row) => row !== macAddress));
     }
   };
 
@@ -84,23 +100,45 @@ export const Profile = () => {
     try {
       setPendingRows([...pendingRows, macAddress]);
       await denyLinkReq(user.username, macAddress);
-      await fetchData();
+      await fetchUsersLinkReqs();
     } catch (error) {
       console.error("Error denying link request:", error);
-      // You might want to show an error message to the user here
     } finally {
-      setPendingRows(pendingRows.filter(row => row !== macAddress));
+      setPendingRows(pendingRows.filter((row) => row !== macAddress));
     }
+  };
+
+  const handleSetRobotNickname = (macAddress, nickname) => {
+    setRobotMacAddress(macAddress);
+    nickname = nickname == "none" ? "" : nickname;
+    setRobotNickname(nickname);
+    setIsSetRobotNicknameOpen(true);
   };
 
   return (
     <>
+      <ChangeProfileImg
+        isOpen={isChangeProfileImgOpen}
+        setIsOpen={setIsChangeProfileImgOpen}
+      />
+      <SetRobotNickname
+        isOpen={isSetRobotNicknameOpen}
+        setIsOpen={setIsSetRobotNicknameOpen}
+        macAddress={robotMacAddress}
+        oldNickname={robotNickname}
+        onNicknameSet={fetchUsersRobots}
+      />
       <div className="profile-container">
         <h1 className="profile-title">Profile</h1>
         <div className="headers">
           <span className="profile-image-container">
-            <img src={image} alt="Profile image" />
-            <button className="basic-btn">change profile image</button>
+            <ProfileImg ProfileImg={image} placeholder="No profile image" />
+            <button
+              className="basic-btn"
+              onClick={() => setIsChangeProfileImgOpen(true)}
+            >
+              change profile image
+            </button>
           </span>
           <div className="profile-greeting">
             <h3>Hello, {user?.username}</h3>
@@ -126,9 +164,33 @@ export const Profile = () => {
                 <li key={index}>
                   <span className="table-cell">{robot.nickname}</span>
                   <span className="table-cell">{robot.macAddress}</span>
-                  <span className="table-cell">
-                    <button className="basic-btn accept-btn">connect</button> /
-                    <button className="basic-btn deny-btn">disconnect</button>
+                  <span
+                    className={`table-cell ${
+                      pendingRows.includes(robot.macAddress) ? "pending" : ""
+                    }`}
+                  >
+                    <button
+                      className="basic-btn accept-btn"
+                      onClick={() => handleConnect(robot.macAddress, robot.nickname)}
+                      disabled={pendingRows.includes(robot.macAddress)}
+                    >
+                      connect
+                    </button>{" "}
+                    /
+                    <button
+                      className="basic-btn deny-btn"
+                      onClick={() => handleRemoveRobot(robot.macAddress)}
+                      disabled={pendingRows.includes(robot.macAddress)}
+                    >
+                      Remove
+                    </button>
+                    /
+                    <button
+                      className="basic-btn basic-inverted-btn"
+                      onClick={() => handleSetRobotNickname(robot.macAddress, robot.nickname)}
+                    >
+                      Set Nickname
+                    </button>
                   </span>
                 </li>
               ))}
@@ -150,8 +212,10 @@ export const Profile = () => {
               usersLinkReqs.map((macAddress, index) => (
                 <li key={index}>
                   <span className="table-cell">{macAddress}</span>
-                  <span className={`table-cell 
-                    ${pendingRows.includes(macAddress) ? "pending" : ""}`} >
+                  <span
+                    className={`table-cell 
+                    ${pendingRows.includes(macAddress) ? "pending" : ""}`}
+                  >
                     <button
                       className="basic-btn accept-btn"
                       onClick={() => handleAcceptLinkReq(macAddress)}
@@ -172,7 +236,6 @@ export const Profile = () => {
               ))}
           </div>
         </div>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
       </div>
     </>
   );

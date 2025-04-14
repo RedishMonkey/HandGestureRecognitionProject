@@ -16,7 +16,14 @@ export const getUsersRobots = async (username) => {
 
         return response.data.robots;
     } catch (error) {
-        console.log(error.response.data);
+        if (error.response?.data?.message) {
+            console.log(error.response.data.message);
+            return;
+        }
+        if (error.message) {
+            console.log(error.message);
+            return;
+        }
     }
 }
 

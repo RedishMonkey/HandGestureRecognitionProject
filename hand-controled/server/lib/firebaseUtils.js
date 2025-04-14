@@ -18,6 +18,7 @@ const db = admin.database();
 const ref = db.ref("/");
 const usersRef = ref.child("users");
 const robotsLinkReqsRef = ref.child("robotsLinkReqs");
+const profileImgsRef = ref.child("profileImgs");
 
 // Function to get all user branches
 const getAllUsers = async () => {
@@ -114,7 +115,6 @@ const addRobotLinkReq = async (username, macAddress) => {
   }
 };
 
-
 const getUsersLinkReqs = async (username) => {
   try {
     const isUserExists = await userExists(username);
@@ -147,33 +147,29 @@ const deleteLinkReq = async (username, macAddress) => {
 
     const macAddresses = Object.values(data);
     const index = macAddresses.indexOf(macAddress);
-   
+
     if (index === -1) throw new Error("MAC address does not exist in the list");
 
-    await robotLinkReqRef.transaction((currentData)=>{
-
+    await robotLinkReqRef.transaction((currentData) => {
       if (currentData === null) return null;
       const index = currentData.indexOf(macAddress);
-      
+
       if (index !== -1) {
         currentData.splice(index, 1);
         return currentData;
       }
 
       return currentData;
-    })
-
-      
+    });
   } catch (error) {
     console.log("Error deleting link request:", error);
   }
 };
 
-
 const getUsersRobots = async (username) => {
   try {
     const isUserExists = await userExists(username);
-    
+
     if (!isUserExists) {
       throw new Error("Username does not exist");
     }
@@ -195,21 +191,21 @@ const addRobot = async (username, macAddress) => {
     }
 
     const robotRef = usersRef.child(username).child("robots");
-    
+
     // checks if robot already exists
     const usersRobots = (await robotRef.once("value")).val();
     const robotMacAdds = Object.keys(usersRobots);
-    if (robotMacAdds.includes(macAddress)) throw new Error("Robot already exists");
+    if (robotMacAdds.includes(macAddress))
+      throw new Error("Robot already exists");
 
+    let dataToAdd = { [macAddress]: { state: "none", nickname: "none" } };
 
-    let dataToAdd = {[macAddress]: {state: "none", nickname: "none"}}
-
-    await robotRef.transaction((currentData)=>{
+    await robotRef.transaction((currentData) => {
       if (!currentData) return dataToAdd;
-      
+
       const robotMacAdds = Object.keys(currentData);
 
-      currentData[macAddress] = {state: "none", nickname: "none"}
+      currentData[macAddress] = { state: "none", nickname: "none" };
       return currentData;
     });
   } catch (error) {
@@ -217,6 +213,144 @@ const addRobot = async (username, macAddress) => {
     throw error;
   }
 };
+
+const setUsersProfileImg = async (username, profileImg) => {
+  try {
+    const isUserExists = await userExists(username);
+    if (!isUserExists) {
+      throw new Error("Username does not exist");
+    }
+
+    const profileImgRef = profileImgsRef.child(username);
+    await profileImgRef.child("profileImg").set(profileImg);
+    console.log("Profile image set successfully");
+  } catch (error) {
+    console.log("Error setting profile image:", error);
+    throw error;
+  }
+};
+
+const getUsersProfileImg = async (username) => {
+  try {
+    const isUserExists = await userExists(username);
+    if (!isUserExists) throw new Error("Username does not exist");
+
+    const profileImgRef = profileImgsRef.child(username).child("profileImg");
+    const snapshot = await profileImgRef.once("value");
+
+    if (!snapshot.exists()) throw new Error("Profile image does not exist");
+
+    const data = snapshot.val();
+
+    return data;
+  } catch (error) {
+    console.log("Error getting profile image:", error);
+    throw error;
+  }
+};
+
+const removeUsersRobot = async (username, macAddress) => {
+  try {
+    const isUserExists = await userExists(username);
+    if (!isUserExists) throw new Error("Username does not exist");
+
+    const robots = await getUsersRobots(username);
+    if (!robots) throw new Error("User doesnt have any robots");
+
+    const robotsMacAdds = Object.keys(robots);
+    const isRobotExists = robotsMacAdds.includes(macAddress);
+    if (!isRobotExists) throw new Error("Robot does not exist");
+    
+
+    const robotRef = usersRef.child(username).child("robots").child(macAddress);
+    await robotRef.remove();
+  } catch (error) {
+    console.log("Error removing robot:", error);
+    throw error;
+  }
+};
+
+const setUserRobotNickname = async (username, macAddress, nickname) => {
+  try {
+    const isUserExists = await userExists(username);
+    if (!isUserExists) throw new Error("Username does not exist");
+  
+    const robotRef = usersRef.child(username).child("robots").child(macAddress);
+    
+    const robotData = (await robotRef.once("value")).val();
+    if (!robotData) throw new Error("Robot does not exist");
+
+    await robotRef.child("nickname").set(nickname);
+  } catch (error) {
+    console.log("Error setting robot nickname:", error);
+    throw error;
+  }
+};
+
+let livestreamingRobots = [];
+
+const setUserRobotState = async (username, macAddress, state, restCall = false) => {
+  try {
+    const isUserExists = await userExists(username);
+    if (!isUserExists) throw new Error("Username does not exist");
+
+    const robotRef = usersRef.child(username).child("robots").child(macAddress);
+    const robotData = (await robotRef.once("value")).val();
+    if (!robotData) throw new Error("Robot does not exist");
+
+    await robotRef.child("state").set(state);
+    
+
+
+    // the logic for reseting to stop after 2 seconds
+    if (restCall) {
+      livestreamingRobots = livestreamingRobots.filter((robot) => robot.macAddress !== macAddress);
+    }
+    else{
+      // Remove existing entry for this robot if it exists
+      livestreamingRobots = livestreamingRobots.filter((robot) => {
+        if (robot.macAddress === macAddress) {
+          // Clear the old timeout before removing
+          if (robot.timeOutId) clearTimeout(robot.timeOutId);
+          return false;
+        }
+        return true;
+      });
+
+      const timeOutId = setTimeout(() => {
+        setUserRobotState(username, macAddress, "stop", true);
+        livestreamingRobots = livestreamingRobots.filter((robot) => robot.macAddress !== macAddress);
+      }, 2000);
+      
+      // Add new entry
+      livestreamingRobots.push({macAddress, timeOutId});
+      console.log("livestreamingRobots: ", livestreamingRobots);
+    }
+
+  }
+  catch (error) {
+    console.log("Error setting robot state:", error);
+    throw error;
+  }
+}
+
+const getUserRobotState = async (username, macAddress) => {
+  try {
+    const isUserExists = await userExists(username);
+    if (!isUserExists) throw new Error("Username does not exist");
+    
+    const robotRef = usersRef.child(username).child("robots").child(macAddress);
+    const robotData = (await robotRef.once("value")).val();
+    if (!robotData) throw new Error("Robot does not exist");
+    
+    
+    return robotData.state;
+  }
+  catch (error) {
+    console.log("Error getting robot state:", error);
+    throw error;
+  }
+}
 
 
 // Function to cleanup Firebase connection - call this when shutting down your application
@@ -240,4 +374,10 @@ module.exports = {
   deleteLinkReq,
   addRobot,
   getUsersRobots,
+  setUsersProfileImg,
+  getUsersProfileImg,
+  removeUsersRobot,
+  setUserRobotNickname,
+  setUserRobotState,
+  getUserRobotState,
 };

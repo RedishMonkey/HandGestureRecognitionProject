@@ -1,0 +1,15 @@
+.connect-to-robot-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.connect-to-robot-header{
+    display: flex;
+    color: var(--basic-blue);
+    margin-bottom: 20px;
+    border: 1px solid var(--basic-blue);
+    padding: 10px;
+    border-radius: 10px;
+}
+

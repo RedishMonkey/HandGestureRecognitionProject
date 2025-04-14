@@ -3,6 +3,7 @@ import { Home } from "./components/Home.jsx";
 import { Navbar } from "./components/Navbar.jsx";
 import { Profile } from "./components/Profile.jsx";
 import { Loader } from "./components/Loader.jsx";
+import { ConnectToRobot } from "./components/ConnectToRobot.jsx";
 
 import { useAuth } from "./components/AuthProvider.jsx";
 
@@ -20,6 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/connect-to-robot" element={<ConnectToRobot />} />
         </Routes>
       </div>
       

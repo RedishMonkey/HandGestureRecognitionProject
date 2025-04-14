@@ -21,9 +21,10 @@
 }
 
 .profile-image-container{
-    --image-container-height: 23vh;
-    --image-container-width: 20vw;
-    --image-height: 20vh;
+    --image-container-height: 35vh;
+    --image-container-width: 30vh;
+    --image-top-margin: 1vh;
+    --image-height: var(--image-container-width);
 
     display: flex;
     flex-direction: column;
@@ -33,10 +34,10 @@
     justify-content: center;
 }
 
-.profile-image-container img{
-    width: var(--image-container-width);
-    height: var(--image-container-height);
-    border-radius: 20%;
+.profile-image-container ProfileImg{
+    width: var(--image-height);
+    height: var(--image-height);
+    border-radius: 50%;
 }
 
 .profile-image-container button{
@@ -44,8 +45,9 @@
     text-align: center;
     font-size: 0.8rem;
     font-weight: 600;
+    margin-top: var(--image-top-margin);
     width: calc(var(--image-container-width) /1.2);
-    height: calc(var(--image-container-height) - var(--image-height));
+    height: calc(var(--image-container-height) - var(--image-height)- var(--image-top-margin));
     border-radius: 10px;
 }
 
@@ -136,11 +138,7 @@
     border-left: none;
 }
 
-.table-cell button {
-    border: none;
-    padding: 5px 4px;
-    margin: 0 5px;
-}
+
 
 .table-cell button.accept-btn {
     background-color: var(--basic-white);

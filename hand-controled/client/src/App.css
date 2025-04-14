@@ -41,6 +41,8 @@ body {
   background-color: var(--basic-blue);
   color: var(--basic-white);
   transition: transform 0.1s ease;
+  padding: 5px 4px;
+  margin: 0 5px;
 }
 
 .basic-btn:hover{
@@ -50,5 +52,46 @@ body {
 .basic-btn:active{
   transform: scale(0.95);
 }
+
+.pos-btn {
+  background-color: var(--basic-white);
+  color: var(--basic-green);
+  border: 1px solid var(--basic-green);
+  padding: 5px;
+}
+
+.pos-btn:hover {
+  background-color: var(--basic-green);
+  color: var(--basic-white);
+}
+
+
+
+.neg-btn {
+  background-color: var(--basic-white);
+  color: var(--basic-red);
+  border: 1px solid var(--basic-red);
+  padding: 5px;
+}
+
+.neg-btn:hover {
+  background-color: var(--basic-red);
+  color: var(--basic-white);
+}
+
+.basic-inverted-btn {
+  background-color: var(--basic-white);
+  color: var(--basic-blue);
+  border: 1px solid var(--basic-blue);
+  padding: 5px;
+}
+
+.basic-inverted-btn:hover {
+  background-color: var(--basic-blue);
+  color: var(--basic-white);
+}
+
+
+
 
 

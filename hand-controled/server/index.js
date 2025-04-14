@@ -4,19 +4,19 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
 // Initialize an Express application
-
 const app = express();
 app.use(cookieParser());
-app.use(express.json());
+
+// Configure CORS
 app.use(cors({
   origin: ['http://localhost:5173'],
   credentials: true,
 }));
 
+// Increase payload size limit for JSON data
+app.use(express.json({ limit: '50mb' }));
 
 const routes = require('./routes');
-
-
 
 // Use the routes at root level
 app.use('/', routes);

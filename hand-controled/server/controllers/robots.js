@@ -134,6 +134,19 @@ const getUsersRobots = async (req, res) => {
   }
 };
 
+const setRobotState = async (req, res) => {
+  try {
+    const { macAddress, state } = setRobotStateSchema.parse(req.body);
+  }
+  catch (error) {
+    if (error instanceof z.ZodError) {
+      console.log(error.issues[0].message);
+    } else {
+      console.log(error);
+    }
+  }
+}
+
 module.exports = {
   robotLinkReq,
   getUsersLinkReqs,

@@ -1,11 +1,5 @@
 const z = require("zod");
-const { usernameValidation } = require("./users");
-
-const macAddressValidation = z
-  .string()
-  .regex(/^[0-9A-Fa-f]{2}(:[0-9A-Fa-f]{2}){5}$/, {
-    message: "Invalid MAC address",
-  });
+const { usernameValidation, macAddressValidation } = require("./single");
 
 const linkRobotSchema = z.object({
   macAddress: macAddressValidation,
@@ -37,4 +31,5 @@ module.exports = {
   getUsersRobotsSchema,
   getUsersRobotsSchema,
   denyLinkReqSchema,  
+  macAddressValidation,
 };
